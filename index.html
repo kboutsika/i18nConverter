@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>i18n converter</title>
+		<link rel="stylesheet" type="text/css" href="css.css">
+	</head>
+	<body>
+		<header>
+			<h1>i18n converter</h1>
+			<h2>Use this tool to convert the contents of i18n folder into a single JS object</h2>
+		</header>
+		<section>
+			<div class="wrapper">
+				<div id="wrapper-inner">
+					<div id="files">
+						<input type="file" name="file-input" webkitdirectory directory id="file-input" accept='text/plain'>
+						<label for="file-input"><span>Choose the i18n folder</span></label>	
+						<div id="folder-struct"></div>
+					</div>
+					<div id="obj-wrapper">
+						
+						<div id="obj-output"></div>
+						<button class="btn" data-clipboard-action="copy" data-clipboard-target="#obj-output" title="Copy to clipboard">
+							<span>Copy&nbsp;<img class="clippy" width="17" src="images/clippy.svg" alt="Copy to clipboard"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script type="text/javascript" src="js/vendors/jquery.min.js"></script>
+		<script type="text/javascript" src="js/vendors/jquery.tree.js"></script>
+		<script type="text/javascript" src="js/vendors/clipboard.min.js"></script>
+		<script type="text/javascript" src="js/js.js"></script>
+	</body>
+</html>
