@@ -30,8 +30,9 @@ var Overlay = {
 	},
 
 	addEvents: function () {
-		this.closeImg.click(() => {
-			$(this.overlay).remove();
+		var self = this;
+		this.closeImg.click (function() {
+			$(self.overlay).remove();
 			$('body').removeClass('shadow');
 		});
 	},
@@ -63,7 +64,7 @@ var Tree = {
 		var target;
 		var file;
 
-		this.$el.click((event) => {
+		this.$el.click(function (event) {
 
 			target = event.target;
 
@@ -112,16 +113,20 @@ var Converter = {
 
 		this.fileInput = document.getElementById('file-input');
 		this.outeputPlaceholder = document.getElementById('obj-output');
+		this.addEvents();
+	},
+	reset: function () {
 		this.i18nObject = {};
 		this.pathList = [];
 		this.files = [];
 		this.fileContentsList = [];
-		this.addEvents();
 	},
-
 	addEvents: function () {
-		this.fileInput.addEventListener('change', (e) => {
-			this.openFolder(e.target);
+		var self = this;
+
+		this.fileInput.addEventListener('change', function (e) {
+			self.reset();	
+			self.openFolder(e.target);
 		});
 		var clipboard = new Clipboard('.btn');
 
@@ -135,7 +140,6 @@ var Converter = {
 		if (!this.files.length) {
 			return;
 		}
-
 		for (i = 0; i < this.files.length; i++) {
 
 			file = this.files[i];
@@ -149,17 +153,18 @@ var Converter = {
 	readXMLFile: function (file, lan, index) {
 
 		var reader = new FileReader();
-        
-        reader.onload = (event) => {
-          	this.XMLText = reader.result;
-          	this.fileContentsList.push(this.XMLText);
+        var self = this;
 
-          	this.cleanXMLText();
-          	this.createI18nObject(lan);
+        reader.onload = function (event) {
+          	self.XMLText = reader.result;
+          	self.fileContentsList.push(self.XMLText);
+
+          	self.cleanXMLText();
+          	self.createI18nObject(lan);
 	        
-	        if (index == this.files.length - 1) {
-				this.buildHTMLOutput();		
-				console.log(this.i18nObject)
+	        if (index == self.files.length - 1) {
+				self.buildHTMLOutput();		
+				console.log(self.i18nObject)
 			}
 
         };
@@ -173,7 +178,11 @@ var Converter = {
 		var regEx = /\/(.*?)\//;
 		var matches = regEx.exec(filePath);
 
-		if (filePath.indexOf('i18n') === -1 || !matches || !matches.length) {
+		if (!matches || !matches.length) {
+			regEx = /(.*?)\//;
+			matches = regEx.exec(filePath);
+		}
+		if (filePath.indexOf('strings.xml') === -1 || !matches || !matches.length) {
 			
 			alert('You did not choose the folder "i18n" or something is not correct.');
 			return;
